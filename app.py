@@ -8,12 +8,18 @@ posts = []
 
 @app.route('/', methods=['GET', 'POST'])
 def blog():
+    source_ip = request.remote_addr
     if request.method == 'POST':
         content = request.form.get('content', '')
+        ip = request.form.get('ip', '')
         if content != '':
-            posts.append(content)
-            return redirect('/')
-        elif content == '':
+            if ip == "127.0.0.1":
+                posts.append("<h1>admin mode</h1>" + content)
+                return redirect('/')
+            else:
+                posts.append(content)
+                return redirect('/')
+        else:
             return redirect('/')
         
     
@@ -34,6 +40,7 @@ def blog():
             <label for="postContent">Write your post:</label><br>
             <textarea id="postContent" name="content" rows="4" cols="50"></textarea><br>
             <input type="submit" value="Submit Post">
+            <input type="hidden" id="ip" name="ip" value="{{ source_ip }}">
         </form>
         <h2>Blog Posts:</h2>
         <br/>
@@ -50,7 +57,7 @@ def blog():
     </body>
     </html>
     '''
-    return render_template_string(blog_html, posts=posts)
+    return render_template_string(blog_html, posts=posts, source_ip=source_ip)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
