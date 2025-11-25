@@ -1,6 +1,6 @@
 #Webpage built in python built to handle html pages deployed by a docker-compose file, the main webpage is a simple blog that uses post requests to make submissions, all submissions are visible no matter what gets posted. The button that sends the post request will have weak security which will allow website wide defacement. To restore the page simply redeploy the docker compose file.
 
-from flask import Flask, request, render_template_string, redirect, flash
+from flask import Flask, request, render_template_string, redirect
 
 app = Flask(__name__)
 
@@ -9,11 +9,11 @@ posts = []
 @app.route('/', methods=['GET', 'POST'])
 def blog():
     if request.method == 'POST':
-        if not request.form.get('content') == "":
-            content = request.form.get('content', '')
+        content = request.form.get('content', '')
+        if content != '':
             posts.append(content)
             return redirect('/')
-        else:
+        elif content == '':
             return redirect('/')
         
     
