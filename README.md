@@ -1,5 +1,5 @@
 # webapp-deface
- <b>web application built in python and docker-compose for the purpose of defacing webpages</b>
+ <b>web application built in python and docker-compose for the purpose of being defaced</b>
 
  <b>do not edit the requirements.txt file</b>
 
