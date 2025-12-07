@@ -6,13 +6,17 @@
  <b>your directory should consist of these items together to ensure functionality:</b>
  
  app.py
+
  docker-compose.yml
+
  Dockerfile
+
  requirements.txt
 
-
  <b>to launch the webapp run:</b>
+
  sudo docker-compose up -d
 
  <b>to kill the webapp:</b>
+
  sudo docker-compose down
