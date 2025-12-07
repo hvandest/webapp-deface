@@ -6,15 +6,27 @@ app = Flask(__name__)
 
 posts = []
 
+
 @app.route('/', methods=['GET', 'POST'])
 def blog():
     source_ip = request.remote_addr
     if request.method == 'POST':
         content = request.form.get('content', '')
+        admin_tools = '''
+            <form method="POST" action="/">
+            <input type="hidden" name="action" value="reset">
+            <input type="submit" value="Reset Blog">
+            </form>
+            '''
         ip = request.form.get('ip', '')
-        if content != '':
+        action = request.form.get('action', '')
+        
+        if action == 'reset' and ip == "127.0.0.1":
+            posts.clear()
+            return redirect('/')
+        elif content != '':
             if ip == "127.0.0.1":
-                posts.append("<h1>admin mode</h1>" + content)
+                posts.append("<h1>admin mode</h1>" + admin_tools)
                 return redirect('/')
             else:
                 posts.append(content)
@@ -36,6 +48,7 @@ def blog():
     </head>
     <body>
         <h1>Blog Blog Blog...</h1>
+        <h3>Author: Hank Vandesteeg</h3>
         <form method="POST" action="/">
             <label for="postContent">Write your post:</label><br>
             <textarea id="postContent" name="content" rows="4" cols="50"></textarea><br>

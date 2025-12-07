@@ -5,12 +5,8 @@ version: '3.8'
 services:
   web:
     container_name: simple-blog
-    image: python:3.9-slim
-    ports:
-      - "5000:5000" # Access the blog at localhost:5000
+    build: .
     volumes:
-      - ./app:/app # Mount the app directory
-    working_dir: /app
-    command: python app.py
-    environment:
-      - FLASK_ENV=development
+      - .:/app
+    ports:
+      - "5000:5000"
